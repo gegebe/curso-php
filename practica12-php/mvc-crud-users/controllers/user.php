@@ -44,7 +44,7 @@
                 if($dtUsers === -1){
 
                     $msn = '<div class="alert alert-danger">El usuario no existe en la base de datos</div>';
-                    
+
                 } else {
                     // Si devuelve 1, pasa por el else
                     // Comprueba si es 1
@@ -70,6 +70,9 @@
         }
     }
 
+    if($_GET){
+        
+    }
 
     class Usuarios {
 

@@ -4,6 +4,7 @@
     //CONTROLADOR
     require_once('controllers/user.php');
 
+    echo print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,13 @@
                 
             ?>
         </div>
+        
         <?php
+        if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
+            // En el caso de tener una sesión abierta, pinta botón para que se pueda cerrar
+            // En la ruta href, el ? genera un GET
+            echo '<a class="btn btn-danger" href="index.php?action=CERRAR_SESSION">CLOSE</a>';
+        }
             include('views/users.php');
         ?>
         <!--bootstrap-->

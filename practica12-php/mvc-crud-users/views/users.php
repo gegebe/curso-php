@@ -1,20 +1,39 @@
+<!--TODA LA VISTA ES PÚBLICA-->
 <section class="container">
     <div class="row">
-        <div class="col-lg-6">
-            <!--Formulario de login-->
-            <?php
-                $users = new Usuarios();
-                echo $users->getFormLogin();
-            ?>
-        </div>
-        <div class="col-lg-6">
-            <!--Formulario de registro-->
-            <?php
-                $users = new Usuarios();
-                echo $users->getFormReg();
-            ?>
+        <?php
+            if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
 
-        </div>
+                echo '<h2>Zona privada</h2>';
+
+            } else {
+
+
+                //Si vamos a parar al else, vemos la parte pública
+
+            ?>
+            <div class="col-lg-6">
+                <!--Formulario de login-->
+                <?php
+                    $users = new Usuarios();
+                    echo $users->getFormLogin();
+                ?>
+            </div>
+            <div class="col-lg-6">
+                <!--Formulario de registro-->
+                <?php
+                    $users = new Usuarios();
+                    echo $users->getFormReg();
+                ?>
+
+            </div>
+
+            <?php
+
+            }
+
+        ?>
+
     </div>
 </section>
 
