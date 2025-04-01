@@ -27,11 +27,52 @@
         private function desconectarDB(){
             $this->res = mysqli_close($this->con);
         }
-
-
-
     }
 
+    class UsuariosDB extends ConectorDB{
+
+        private $validar = false;
+
+        private function Validar($datos){
+            if(isset($datos['email']) && !empty($datos['email'])){
+                //Consulta que comprueba si el email existe
+                $sql = "SELECT `email` FROM `app_usuarios` WHERE `email` = '".$datos['email']."'; ";
+                
+                $res = $this->consultarDB($sql);
+                $total = mysqli_num_rows($res);
+
+                if($total == 0){
+                    $this->validar = true;//No se devulve porque con $this ya está en la propiedad
+                } else {
+                    $this->validar = false;
+                }
+            }
+        }
+        
+        public function AddUsuariosDB($datos){
+
+            $this->Validar($datos);
+            if($this->validar){
+
+                $sql = "INSERT INTO `app_usuarios` 
+                (`nombre`, `pass`, `foto`, `email`, `conectado`, `estado`) 
+                VALUES 
+                ('".$datos['nombre']."', 
+                '".MD5($datos['pass'])."', 
+                'http://localhost:8888/curso_php/practica12-php/mvc-crud-users/foto1.jpg',
+                '".$datos['email']."', 
+                '0', 
+                '0');";
+
+
+
+                $res = $this->consultarDB($sql);
+                return $res;
+            }
+
+        }
+
+    }
 
     /*
 

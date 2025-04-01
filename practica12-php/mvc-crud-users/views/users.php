@@ -28,56 +28,11 @@
         </div>
         <div class="col-lg-6">
             <!--Formulario de registro-->
-            <form id="registro" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
-                <h3>Formulario de acceso</h3>
-                <ul>
-                    <li>
-                        <label for="user">Nombre</label>
-                        <input id="user" name="nombre" type="text" class="form-control" placeholder="Usuario">
-                    </li>
-                    <li>
-                        <label for="pass">Password</label>
-                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password">
-                    </li>
-                    <li>
-                        <label for="pass">Repetir password</label>
-                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password">
-                    </li>
-                    <li>
-                        <label for="email">Email</label>
-                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email">
-                    </li>
-                    <li>
-                        <label for="email2">Repetir email</label>
-                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir password">
-                    </li>
-                    <li>
-                        <label for="foto">Foto</label>
-                        <input name="foto" id="foto" type="file" class="form-control">
-                    </li>
+            <?php
+                $users = new Usuarios();
+                echo $users->getFormReg();
+            ?>
 
-                    <li>
-                        <input type="hidden" name="conectado" value="0">
-                    </li>
-                    <li>
-                        <input type="hidden" name="estado" value="0">
-                    </li>
-                    <li>
-                        <input type="hidden" name="action" value="REG_USUARIOS">
-                    </li>
-
-                    <li>
-                        <ul class="d-flex">
-                            <li>
-                                <button class="btn btn-success" type="submit">LOGIN</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-danger" type="reset">RESET</button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </form>
         </div>
     </div>
 </section>
