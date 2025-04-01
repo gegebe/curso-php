@@ -2,29 +2,10 @@
     <div class="row">
         <div class="col-lg-6">
             <!--Formulario de login-->
-            <form class="form-control" method="POST" action="index.php">
-                <h3>Formulario de acceso</h3>
-                <ul>
-                    <li>
-                        <label for="user-access">
-                        <input name="user" id="user-access" type="text" class="form-control" placeholder="Usuario" required>
-                    </li>
-                    <li>
-                        <label for="pass">
-                        <input name="pass" id="pass" type="password" class="form-control" placeholder="Password" required>
-                    </li>
-                    <li>
-                        <ul class="d-flex">
-                            <li>
-                                <button class="btn btn-success" type="submit">LOGIN</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-danger" type="reset">RESET</button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </form>
+            <?php
+                $users = new Usuarios();
+                echo $users->getFormLogin();
+            ?>
         </div>
         <div class="col-lg-6">
             <!--Formulario de registro-->

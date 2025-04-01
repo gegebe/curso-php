@@ -48,6 +48,28 @@
                 }
             }
         }
+
+        public function consultarUsuariosNombre($datos){
+            $sql = "SELECT * FROM 
+                    `app_usuarios` 
+                    WHERE `email` ='".$datos['user']."';"; //Trae todo de la tabla... cuando el email coincide...
+            //Pasa sql por la consulta
+            $datos = $this->consultarDB($sql);
+            $total = mysqli_num_rows($datos);//Cuenta el número de registros de la BD
+
+                if($total > 0){
+                    //Si el número de registros es mayor que 0, realiza el bucle
+                    foreach($datos as $dato);
+                    //Devuelve el / los valores
+                    return $dato;
+    
+                } else {
+                    return -1;
+                    //Mensaje de error
+                }
+            
+
+            }
         
         public function AddUsuariosDB($datos){
 

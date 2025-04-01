@@ -30,12 +30,12 @@
     </head>
     <body>
         <div id="salidas">
-        <?php 
-            if(isset($msn) && !empty($msn)){
-                echo $msn;
-            };
-            
-        ?>
+            <?php 
+                if(isset($msn) && !empty($msn)){
+                    echo "<div class='mensaje'>$msn</div>"; // Agregar clase 'mensaje'
+                };
+                
+            ?>
         </div>
         <?php
             include('views/users.php');
@@ -48,5 +48,21 @@
         <!--datatables-->
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js">
         </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () =>{
+             // Añadir transiciones suaves
+             let mensajes = document.querySelectorAll('#salidas .mensaje');
+             function startCounter() {
+                mensajes.forEach((mensaje, index) => {
+                    setTimeout(() => {
+                        mensaje.style.display = "none";
+                    }, (index + 1) * 4000);
+                });
+            }
+                startCounter();
+            });
+        </script>
+
     </body>
 </html>
