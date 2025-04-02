@@ -123,7 +123,7 @@
             $sql = "UPDATE `app_tareas` SET `nombre` = '".$datos['nombre']."',
                     `tiempo` = '".$datos['tiempo']."',
                     `estado` = ".$datos['estado']."
-                    WHERE `tareas`.`rowid` = ".$datos['rowid'].";";
+                    WHERE `app_tareas`.`rowid` = ".$datos['rowid'].";";
                     /// Dentro de tareas, columna rowid
             $res = $this->ConsultarDB($sql);
             return $res;

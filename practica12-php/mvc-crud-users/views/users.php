@@ -4,7 +4,10 @@
         <?php
             if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
 
-                echo '<h2>Zona privada</h2>';
+                echo '<h2>Listado de usuarios</h2>';
+                echo '<a href="" class="btn btn-primary">Nuevo usuario</a>';
+                $users = new Usuarios();
+                echo $users->getTable();
 
             } else {
 

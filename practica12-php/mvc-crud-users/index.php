@@ -3,8 +3,6 @@
     session_start();
     //CONTROLADOR
     require_once('controllers/user.php');
-
-    echo print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>

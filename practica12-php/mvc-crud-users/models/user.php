@@ -49,6 +49,30 @@
             }
         }
 
+        public function consultarUsuarios(){
+            $sql = "SELECT * FROM `app_usuarios`";
+            $datos = $this->consultarDB($sql);
+            $total = mysqli_num_rows($datos);
+
+            if($total > 0){
+
+                $i=0;
+                //$dato obtiene clave, valor // $key => $value
+                foreach($datos as $dato){
+                    //De Array monodimensional a Array multidimensional
+                    $dtUsuarios[$i] = $dato;
+                    $i++;
+                }
+
+                //Devuelve Array con todas las filas, cada fila es una Array cos sus datos.
+                return $dtUsuarios;
+
+            } else {
+                return -1;
+            }
+
+        }
+
         public function consultarUsuariosNombre($datos){
             $sql = "SELECT * FROM 
                     `app_usuarios` 
@@ -93,6 +117,8 @@
             }
 
         }
+
+
 
     }
 

@@ -16,9 +16,9 @@
     }
 
     if($_GET){
-        if(isset($_GET['action']) && !empty($_POST['action'])){
+        if(isset($_GET['action']) && !empty($_GET['action'])){
             if($_GET['action'] == 'CERRAR_SESSION'){
-
+                $usuarios->cerrarSession();
             }
         }
     }
@@ -29,11 +29,13 @@
         private $formreg;
         private $formlogin;
         private $userDB;
+        private $table;
 
         public function __construct(){
             $this->userDB = new UsuariosDB();
             $this->setFormReg();
             $this->setFormLogin();
+            $this->setTable();
         }
 
         // Método para manejar registros
@@ -92,6 +94,12 @@
             }
         }
 
+        public function cerrarSession(){
+            session_destroy();//Vaciar los datos
+            unset($_SESSION);//Vacia 
+            return;
+        }
+
         private function setFormReg(){
             $this->formreg = '
                 <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data" >
@@ -111,6 +119,10 @@
             ';
         }
 
+        public function getFormReg(){            
+            return $this->formreg;
+        }
+
         private function setFormLogin(){
             $this->formlogin = '
                 <form class="form-control" method="POST" action="index.php">
@@ -124,11 +136,70 @@
             ';
         }
 
-        public function getFormReg(){            
-            return $this->formreg;
-        }
-
         public function getFormLogin(){            
             return $this->formlogin;
+        }
+
+        private function setTable(){
+            $this->table = '
+            <table class="table table-striped table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>rowid</th>
+                        <th>nombre</th>
+                        <th>e-mail</th>
+                        <th>conectado</th>
+                        <th>estado</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                //Conectar a BD
+                $dtUsuarios = $this->userDB->consultarUsuarios();
+
+                foreach($dtUsuarios as $dtUsuario){
+                    // $this->table.='<td>'.$dtUsuario['estado'].'</td>';
+                    $this->table.='<tr>';
+                    $this->table.='<td>'.$dtUsuario['rowid'].'</td>';
+                    $this->table.='<td>'.$dtUsuario['nombre'].'</td>';
+                    $this->table.='<td>'.$dtUsuario['email'].'</td>';
+                    $this->table.='<td>'.$dtUsuario['conectado'].'</td>';
+                    $this->table.='<td>
+                                        <div class="btn btn-outline-secondary">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                            </div>
+                                        </div>
+                                    </td>';
+                    $this->table.='<td>
+                                        <a href="" class="btn btn-success"> 
+                                            <span class="fa-solid fa-pen-to-square"></span>
+                                        </a>
+                                    </td>';
+                    $this->table.='<td>
+                                        <a href="" class="btn btn-danger"> 
+                                            <span class="fa-solid fa-trash"></span>
+                                        </a>
+                                    </td>';
+                    $this->table.='</tr>';
+                };
+
+               $this->table .= '
+               </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="" colspan="7">
+                            Total de usuarios:
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>';
+        }
+
+        public function getTable(){
+            return $this->table;
+            
         }
     }

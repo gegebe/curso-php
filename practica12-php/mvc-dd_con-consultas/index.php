@@ -50,7 +50,7 @@
 
         $con = new ConectorDB;
         // Consulta SQL almacenada en variable
-        $sql = "SELECT * FROM `tareas`";/*SELECCIONA TODO DE LA TABLA tareas*/
+        $sql = "SELECT * FROM `app_tareas`";/*SELECCIONA TODO DE LA TABLA tareas*/
 
         // 3. Llama a la función pública ConsultarDB() del objeto
         $datosObtenidos = $con->ConsultarDB($sql);
