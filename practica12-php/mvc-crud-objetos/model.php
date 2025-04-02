@@ -29,7 +29,7 @@
     class TareasDB extends ConectorDB{
 
         public function ConsultarTareasDB(){
-            $sql = "SELECT * FROM `tareas`"; 
+            $sql = "SELECT * FROM `app_tareas`"; 
             $tareas = $this->ConsultarDB($sql);
             $total = mysqli_num_rows($tareas);
 
@@ -46,7 +46,7 @@
         }
 
         public function ConsultarTareasIdDB(int $rowid){
-            $sql = "SELECT * FROM `tareas` WHERE `rowid` =".$rowid;
+            $sql = "SELECT * FROM `app_tareas` WHERE `rowid` =".$rowid;
             $tarea = $this->ConsultarDB($sql);
             // $total = mysqli_num_rows($tarea);
             $total = mysqli_num_rows($tarea);
@@ -65,7 +65,7 @@
 
         //// CRUD - (C) CREATE
         public function AddTareasDB(Array $datos){
-            $sql = "INSERT INTO `tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
+            $sql = "INSERT INTO `app_tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
                     VALUES (null, '".$datos['nombre']."', '".$datos['tiempo']."', ".$datos['estado'].");";
             $res = $this->ConsultarDB($sql);
             return $res;
@@ -74,10 +74,10 @@
 
         //// CRUD - (U) UPDATE
         public function UpdateTareasDB(Array $datos){
-            $sql = "UPDATE `tareas` SET `nombre` = '".$datos['nombre']."',
+            $sql = "UPDATE `app_tareas` SET `nombre` = '".$datos['nombre']."',
                     `tiempo` = '".$datos['tiempo']."',
                     `estado` = ".$datos['estado']."
-                    WHERE `tareas`.`rowid` = ".$datos['rowid'].";";
+                    WHERE `app_tareas`.`rowid` = ".$datos['rowid'].";";
 
             try{
 
@@ -95,7 +95,7 @@
 
         //// CRUD - (D) DELETE
         public function DeleteTareasDB(int $rowid){
-            $sql = "DELETE FROM `tareas` WHERE `rowid` =".$rowid;
+            $sql = "DELETE FROM `app_tareas` WHERE `rowid` =".$rowid;
             $res = $this->ConsultarDB($sql);
             return $res;
         }

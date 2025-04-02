@@ -128,7 +128,7 @@
         // }
 
         public function ConsultarTareasDB(){
-            $sql = "SELECT * FROM `tareas`"; //Esta expresión selecciona toda la tabla
+            $sql = "SELECT * FROM `app_tareas`"; //Esta expresión selecciona toda la tabla
             $tareas = $this->ConsultarDB($sql);//Recibimos mysqli_result
             // echo print_r($tareas);
             // exit(0);//Deja de ejecutar el resto a partir de esta línea

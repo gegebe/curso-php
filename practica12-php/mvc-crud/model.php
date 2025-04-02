@@ -129,7 +129,7 @@
 
         //// CRUD - (R) READ
         public function ConsultarTareasDB(){
-            $sql = "SELECT * FROM `tareas`"; //Esta expresión selecciona toda la tabla
+            $sql = "SELECT * FROM `app_tareas`"; //Esta expresión selecciona toda la tabla
             $tareas = $this->ConsultarDB($sql);//Recibimos mysqli_result
             // echo print_r($tareas);
             // exit(0);//Deja de ejecutar el resto a partir de esta línea
@@ -157,7 +157,7 @@
             //// INSERT INTO - Escribe en la tabla tareas
             //// VALUES() - Especificamos los valores que entran, siendo null el primero de ellos porque es
             //// Auto Incremental
-            $sql = "INSERT INTO `tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
+            $sql = "INSERT INTO `app_tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
                     VALUES (null, '".$datos['nombre']."', '".$datos['tiempo']."', ".$datos['estado'].");";
 
             // //// Canalizar los errores
