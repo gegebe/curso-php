@@ -1,187 +1,134 @@
 <?php
-
-    //CONSTANTES
     require_once('config.php');
-    //MODELO
     require_once('models/user.php');
-
-    $userDB = new UsuariosDB();
-    
+    $usuarios = new Usuarios();
+   
 
     if($_POST){
         if(isset($_POST['action']) && !empty($_POST['action'])){
-            if($_POST['action'] == 'REG_USUARIOS'){
-
-                foreach($_POST as $key=>$value){
-                    if($key != 'action'){
-                        //Evita que lleguen valores HTML / inyectados
-                        $datos[$key] = htmlspecialchars($value);
-                    }
-                                   
-                }
-                
-                /* Almacenar los datos del usuario mediante la función AddUsuarioDB, si estos no existen en la BD */
-                $res = $userDB->AddUsuariosDB($datos);
-                    if($res == 1){
-                        $msn = '<div class="alert alert-success">Datos guardados correctamente</div>';
-                    } else {
-                        $msn = '<div class="alert alert-danger">Error al guardar los datos</div>';
-                    }
+            if($_POST['action'] == 'REG_USUARIOS'){      
+                $msn = $usuarios->registrarUsuario($_POST);          
             }
-
             if($_POST['action'] == 'LOGIN_USER'){
+                $msn = $usuarios->loginUsuarios($_POST);                 
+            }             
+        }       
+    }
 
-                foreach($_POST as $key=>$value){
-                    if($key != 'action'){
-                        $datos[$key] = htmlspecialchars($value);
-                    }
-                    
-                }
-
-                //Almacena los datos del $_POST
-                $dtUsers = $userDB->consultarUsuariosNombre($datos);
-
-                if($dtUsers === -1){
-
-                    $msn = '<div class="alert alert-danger">El usuario no existe en la base de datos</div>';
-
-                } else {
-                    // Si devuelve 1, pasa por el else
-                    // Comprueba si es 1
-                    if($dtUsers['estado'] == 1){
-                        
-                        /*Comparamos el pass encriptando al "vuelo" y comparado con el hash de la BD,
-                        si coincide dejamos pasar*/
-                        if(md5($datos['pass']) == $dtUsers['pass']){
-                            //Variable de entorno, propia de PHP
-                            $_SESSION['user'] = $dtUsers['email'];
-                            $_SESSION['nombre'] = $dtUsers['nombre'];
-
-                        } else {
-                            $msn = '<div class="alert alert-danger">Contraseña del usuario incorrecta</div>';
-                        }
-
-                    } else {
-                        $msn = '<div class="alert alert-danger">El usuario no tiene permisos</div>';
-                    }
-                }
+    if($_GET){
+        if(isset($_GET['action']) && !empty($_POST['action'])){
+            if($_GET['action'] == 'CERRAR_SESSION'){
 
             }
         }
     }
 
-    if($_GET){
-        
-    }
 
-    class Usuarios {
+    class Usuarios{
 
-        //1. propiedad
         private $formreg;
         private $formlogin;
+        private $userDB;
 
         public function __construct(){
-        //3. llena la propiedad de valor setFormReg()
+            $this->userDB = new UsuariosDB();
             $this->setFormReg();
             $this->setFormLogin();
         }
 
-        private function setFormReg(){
-        //2. valor de la propiedad
-            $this->formreg = '
-            <form id="registro" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
-                <h3>Formulario de acceso</h3>
-                <ul>
-                    <li>
-                        <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Usuario" required>
-                    </li>
-                    <li>
-                        <label for="pass">Password</label>
-                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" required>
-                    </li>
-                    <li>
-                        <label for="pass">Repetir password</label>
-                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" required>
-                    </li>
-                    <li>
-                        <label for="email">Email</label>
-                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email" required>
-                    </li>
-                    <li>
-                        <label for="email2">Repetir email</label>
-                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir password" required>
-                    </li>
-                    <li>
-                        <label for="foto">Foto</label>
-                        <input name="foto" id="foto" type="file" class="form-control">
-                    </li>
+        // Método para manejar registros
+        public function registrarUsuario($postData) {
+            if (!isset($postData['action']) || $postData['action'] !== 'REG_USUARIOS') {
+                return;
+            }
 
-                    <li>
-                        <input type="hidden" name="conectado" value="0">
-                    </li>
-                    <li>
-                        <input type="hidden" name="estado" value="0">
-                    </li>
-                    <li>
-                        <input type="hidden" name="action" value="REG_USUARIOS">
-                    </li>
+            // Sanitizamos los datos
+            $datos = [];
+            foreach ($postData as $key => $value) {
+                if ($key !== 'action') {
+                    $datos[$key] = htmlspecialchars(trim($value));
+                }
+            }     
 
-                    <li>
-                        <ul class="d-flex">
-                            <li>
-                                <button class="btn btn-success" type="submit">LOGIN</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-danger" type="reset">RESET</button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </form>
-            ';
+            // Guardamos el usuario en la base de datos
+            $res = $this->userDB->AddUsuariosDB($datos);
+
+            return ($res == 1) 
+                ?  '<div class="alert alert-success">Datos Guardados Correctamente</div>'
+                :  '<div class="alert alert-danger">Datos No Guardados Correctamente</div>';
         }
 
-        public function getFormReg(){
-        //4. Devuelve la propuedad donde es llamado
-            return $this->formreg;
+        public function loginUsuarios($postData){
+            if (!isset($postData['action']) || $postData['action'] !== 'LOGIN_USER') {
+                return;
+            }
+    
+            // Sanitizamos los datos
+            $datos = [];
+            foreach ($postData as $key => $value) {
+                if ($key !== 'action') {
+                    $datos[$key] = htmlspecialchars(trim($value));
+                }
+            }
+    
+            // Consultamos el usuario en la base de datos
+            $dtUser = $this->userDB->ConsultarUsuariosNombre($datos);
+    
+            if ($dtUser === -1) {
+                return '<div class="alert alert-danger">No existe el Usuario</div>';
+            }
+    
+            if ($dtUser['estado'] == 1) {
+                if (MD5($datos['pass']) == $dtUser['pass']) {
+                    $_SESSION['user'] = $dtUser['email'];
+                    $_SESSION['nombre'] = $dtUser['nombre'];
+                    return '<div class="alert alert-success">Inicio de sesión exitoso</div>';
+                } else {
+                    return '<div class="alert alert-danger">Contraseña incorrecta</div>';
+                }
+            } else {    
+
+                return '<div class="alert alert-danger">El Usuario no tiene permisos</div>';
+            }
+        }
+
+        private function setFormReg(){
+            $this->formreg = '
+                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data" >
+                    <h3>Formulario de registro:</h3>
+                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required />
+                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required />
+                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required />
+                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required />
+                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required />
+                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:" />
+                    <input id="conectado" type="hidden" name="conectado" value="0" />
+                    <input id="estado" type="hidden" name="estado" value="0" />
+                    <input type="hidden" name="action" value="REG_USUARIOS" />
+                    <input class="btn btn-success" type="submit" value="REGISTRO" />
+                    <input class="btn btn-danger" type="reset" value="RESET" />
+                </form>   
+            ';
         }
 
         private function setFormLogin(){
             $this->formlogin = '
                 <form class="form-control" method="POST" action="index.php">
-                <h3>Formulario de acceso</h3>
-                <ul>
-                    <li>
-                        <label for="user-access">
-                        <input name="user" id="user-access" type="email" class="form-control" placeholder="Usuario" required>
-                    </li>
-                    <li>
-                        <label for="pass">
-                        <input name="pass" id="pass" type="password" class="form-control" placeholder="Password" required>
-                    </li>
-                    <li>
-                        <input name="action" type="hidden" value="LOGIN_USER">
-                    </li>
-                    <li>
-                        <ul class="d-flex">
-                            <li>
-                                <button class="btn btn-success" type="submit">LOGIN</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-danger" type="reset">RESET</button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </form>';
+                    <h3>Formulario de acceso:</h3>
+                    <input name="user" type="email" class="form-control" placeholder="Usuario:" required />
+                    <input name="pass" type="password" class="form-control" placeholder="Password:" required />
+                    <input type="hidden" name="action" value="LOGIN_USER" />
+                    <input class="btn btn-success" type="submit" value="LOGIN" />
+                    <input class="btn btn-danger" type="reset" value="RESET" />
+                </form>           
+            ';
         }
 
-        public function getFormLogin(){
+        public function getFormReg(){            
+            return $this->formreg;
+        }
+
+        public function getFormLogin(){            
             return $this->formlogin;
         }
-
-
     }
-
-?>

@@ -49,7 +49,7 @@
 
         //// CRUD - (R) READ
         public function ConsultarTareasDB(){
-            $sql = "SELECT * FROM `tareas`"; //Esta expresión selecciona toda la tabla
+            $sql = "SELECT * FROM `app_tareas`"; //Esta expresión selecciona toda la tabla
             $tareas = $this->ConsultarDB($sql);//Recibimos mysqli_result
             // echo print_r($tareas);
             // exit(0);//Deja de ejecutar el resto a partir de esta línea
@@ -70,7 +70,7 @@
         }
 
         public function ConsultarTareasIdDB(int $rowid){
-            $sql = "SELECT * FROM `tareas` WHERE `rowid` =".$rowid;
+            $sql = "SELECT * FROM `app_tareas` WHERE `rowid` =".$rowid;
             $tarea = $this->ConsultarDB($sql);
             // $total = mysqli_num_rows($tarea);
             $total = mysqli_num_rows($tarea);//Cuenta el número de filas
@@ -95,7 +95,7 @@
             //// INSERT INTO - Escribe en la tabla tareas
             //// VALUES() - Especificamos los valores que entran, siendo null el primero de ellos porque es
             //// Auto Incremental
-            $sql = "INSERT INTO `tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
+            $sql = "INSERT INTO `app_tareas` (`rowid`, `nombre`, `tiempo`, `estado`) 
                     VALUES (null, '".$datos['nombre']."', '".$datos['tiempo']."', ".$datos['estado'].");";
             $res = $this->ConsultarDB($sql);
             //$datos = $this->ConsultarDB($sql);
@@ -120,7 +120,7 @@
 
         //// CRUD - (U) UPDATE
         public function UpdateTareasDB(Array $datos){
-            $sql = "UPDATE `tareas` SET `nombre` = '".$datos['nombre']."',
+            $sql = "UPDATE `app_tareas` SET `nombre` = '".$datos['nombre']."',
                     `tiempo` = '".$datos['tiempo']."',
                     `estado` = ".$datos['estado']."
                     WHERE `tareas`.`rowid` = ".$datos['rowid'].";";
@@ -131,7 +131,7 @@
 
         //// CRUD - (D) DELETE
         public function DeleteTareasDB(int $rowid){
-            $sql = "DELETE FROM `tareas` WHERE `rowid` =".$rowid;
+            $sql = "DELETE FROM `app_tareas` WHERE `rowid` =".$rowid;
             $res = $this->ConsultarDB($sql);
             return $res;
         }
