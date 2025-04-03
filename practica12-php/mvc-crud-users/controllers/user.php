@@ -16,17 +16,40 @@
     }
 
     if($_GET){
+
+        if(isset($_GET['views']) AND !empty($_GET['views'])){
+
+            if($_GET(['views']) == 'edituser'){
+
+                if(isset($_GET['action']) AND !empty($_GET['action'])){
+                    
+                    if($_GET['action'] == 'edituser'){
+                        $rowid = base64_decode($_GET['id']);
+                        $usuarios->consultarUserId($rowid);
+                    }
+
+                }
+
+            }
+
+        }
+
         if(isset($_GET['action']) && !empty($_GET['action'])){
             if($_GET['action'] == 'CERRAR_SESSION'){
                 $usuarios->cerrarSession();
             }
+
         }
     }
+
+     
+    
 
 
     class Usuarios{
 
         private $formreg;
+        private $formregedit;
         private $formlogin;
         private $userDB;
         private $table;
@@ -102,19 +125,19 @@
 
         private function setFormReg(){
             $this->formreg = '
-                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data" >
+                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
                     <h3>Formulario de registro:</h3>
-                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required />
-                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required />
-                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required />
-                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required />
-                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required />
-                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:" />
-                    <input id="conectado" type="hidden" name="conectado" value="0" />
-                    <input id="estado" type="hidden" name="estado" value="0" />
-                    <input type="hidden" name="action" value="REG_USUARIOS" />
-                    <input class="btn btn-success" type="submit" value="REGISTRO" />
-                    <input class="btn btn-danger" type="reset" value="RESET" />
+                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required>
+                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required>
+                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required>
+                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required>
+                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required>
+                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:">
+                    <input id="conectado" type="hidden" name="conectado" value="0">
+                    <input id="estado" type="hidden" name="estado" value="0">
+                    <input type="hidden" name="action" value="REG_USUARIOS">
+                    <input class="btn btn-success" type="submit" value="REGISTRO">
+                    <input class="btn btn-danger" type="reset" value="RESET">
                 </form>   
             ';
         }
@@ -123,15 +146,39 @@
             return $this->formreg;
         }
 
+        private function setFormRegEdit(){
+            $this->formregedit = '
+                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
+                    <h3>Formulario de registro:</h3>
+                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required>
+                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required>
+                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required>
+                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required>
+                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required>
+                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:">
+                    <input id="conectado" type="hidden" name="conectado" value="0">
+                    <input id="estado" type="hidden" name="estado" value="0">
+                    <input type="hidden" name="action" value="REG_USUARIOS">
+                    <input class="btn btn-success" type="submit" value="REGISTRO">
+                    <input class="btn btn-danger" type="reset" value="RESET">
+                </form>   
+            ';
+        }
+
+        public function getFormRegEdit(){
+            return $this->formregedit;
+        }
+
+
         private function setFormLogin(){
             $this->formlogin = '
                 <form class="form-control" method="POST" action="index.php">
                     <h3>Formulario de acceso:</h3>
-                    <input name="user" type="email" class="form-control" placeholder="Usuario:" required />
-                    <input name="pass" type="password" class="form-control" placeholder="Password:" required />
-                    <input type="hidden" name="action" value="LOGIN_USER" />
-                    <input class="btn btn-success" type="submit" value="LOGIN" />
-                    <input class="btn btn-danger" type="reset" value="RESET" />
+                    <input name="user" type="email" class="form-control" placeholder="Usuario:" required>
+                    <input name="pass" type="password" class="form-control" placeholder="Password:" required>
+                    <input type="hidden" name="action" value="LOGIN_USER">
+                    <input class="btn btn-success" type="submit" value="LOGIN">
+                    <input class="btn btn-danger" type="reset" value="RESET">
                 </form>           
             ';
         }
@@ -174,7 +221,7 @@
                                         </div>
                                     </td>';
                     $this->table.='<td>
-                                        <a href="" class="btn btn-success"> 
+                                        <a href="index.php?views=edituser&action=edituser&id='.base64_encode($dtUsuario['rowid']).'" class="btn btn-success"> 
                                             <span class="fa-solid fa-pen-to-square"></span>
                                         </a>
                                     </td>';
@@ -201,5 +248,9 @@
         public function getTable(){
             return $this->table;
             
+        }
+
+        public function consultarUserId($rowid){
+            $dtUser = $this->userDB->consultarUserIdDB($rowid);
         }
     }

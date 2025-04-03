@@ -5,9 +5,19 @@
             if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
 
                 echo '<h2>Listado de usuarios</h2>';
-                echo '<a href="" class="btn btn-primary">Nuevo usuario</a>';
+                echo '<a href="index.php?views=reguser" class="btn btn-primary">Nuevo usuario</a>';
                 $users = new Usuarios();
                 echo $users->getTable();
+
+                if(isset($_GET['views']) AND !empty($_GET['views'])){
+                    if($_GET['views'] == 'reguser'){
+                        echo $users->getFormReg();
+                    }
+
+                    if($_GET['views'] == 'edituser'){
+                        // echo $users->getFormReg();//Actualizar datos, formulario distinto
+                    }
+                }
 
             } else {
 

@@ -73,6 +73,24 @@
 
         }
 
+        public function consultarUserIdDB($rowid){
+            $sql = "SELECT * FROM `app_usuarios` WHERE `rowid` = $rowid";
+            $datos = $this->consultarDB($sql);
+            $total = mysqli_num_rows($datos);
+            
+            if($total > 0){
+                //Si el número de registros es mayor que 0, realiza el bucle
+                foreach($datos as $dato);
+                //Devuelve el / los valores
+                return $dato;
+
+            } else {
+                return -1;
+                //Mensaje de error
+            }
+
+        }
+
         public function consultarUsuariosNombre($datos){
             $sql = "SELECT * FROM 
                     `app_usuarios` 
