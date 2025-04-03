@@ -19,7 +19,7 @@
 
         if(isset($_GET['views']) AND !empty($_GET['views'])){
 
-            if($_GET(['views']) == 'edituser'){
+            if($_GET['views'] == 'edituser'){
 
                 if(isset($_GET['action']) AND !empty($_GET['action'])){
                     
