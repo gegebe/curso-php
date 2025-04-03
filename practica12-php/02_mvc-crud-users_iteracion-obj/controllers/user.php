@@ -73,7 +73,7 @@
         }
 
         public function updateUsuario($postData){
-            if (isset($postData['action']) || $postData['action'] !== 'UPDATE_USUARIO') {
+            if (isset($postData['action']) AND $postData['action'] !== 'UPDATE_USUARIO') {
                 return;
             }
 
