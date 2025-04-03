@@ -9,21 +9,27 @@
             if($_POST['action'] == 'REG_USUARIOS'){      
                 $msn = $usuarios->registrarUsuario($_POST);          
             }
+
             if($_POST['action'] == 'LOGIN_USER'){
                 $msn = $usuarios->loginUsuarios($_POST);                 
-            }             
+            }   
+            
+            if($_POST['action'] == 'UPDATE_USUARIO'){
+                $msn = $usuarios->updateUsuario($_POST);                 
+            }   
         }       
     }
 
     if($_GET){
-
-        
-
         if(isset($_GET['action']) && !empty($_GET['action'])){
             if($_GET['action'] == 'CERRAR_SESSION'){
                 $usuarios->cerrarSession();
             }
+        }
 
+        if($_GET['action'] == 'borrarusuario'){
+            $rowid = base64_decode($_GET['id']);
+            $usuarios->DeleteUsuario($rowid);
         }
     }
 
@@ -66,6 +72,27 @@
                 :  '<div class="alert alert-danger">Datos No Guardados Correctamente</div>';
         }
 
+        public function updateUsuario($postData){
+            if (isset($postData['action']) || $postData['action'] !== 'UPDATE_USUARIO') {
+                return;
+            }
+
+            // Sanitizamos los datos
+            $datos = [];
+            foreach ($postData as $key => $value) {
+                if ($key !== 'action') {
+                    $datos[$key] = htmlspecialchars(trim($value));
+                }
+            }
+
+            // Actualizamos la base de datos
+            $res = $this->userDB->UpdateUsariosDB($datos);
+
+            return ($res == 1) 
+                ?  '<div class="alert alert-success">Datos actualizados correctamente</div>'
+                :  '<div class="alert alert-danger">Error al actualizar los datos</div>';
+        }
+
         public function loginUsuarios($postData){
             if (!isset($postData['action']) || $postData['action'] !== 'LOGIN_USER') {
                 return;
@@ -104,6 +131,13 @@
             session_destroy();//Vaciar los datos
             unset($_SESSION);//Vacia 
             return;
+        }
+
+        public function DeleteUsuario($rowid){
+            $res = $this->userDB->DeleteUserDB($rowid);
+            return ($res == 1) 
+            ?  '<div class="alert alert-success">Dato borrado correctamente</div>'
+            :  '<div class="alert alert-danger">Error al borrar datos</div>';
         }
 
         private function setFormReg(){
@@ -176,11 +210,11 @@
                     </li>
                     <li>
                         <label for="pass">Password</label>
-                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" value="" required>
+                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" value="">
                     </li>
                     <li>
                         <label for="pass">Repetir password</label>
-                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" value="" required>
+                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" value="">
                     </li>
                     <li>
                         <label for="email">Email</label>
@@ -202,7 +236,7 @@
                         <input type="hidden" name="estado" value="'.$this->dtUser['estado'].'">
                     </li>
                     <li>
-                        <input type="hidden" name="action" value="UPDATE_USUARIOS">
+                        <input type="hidden" name="action" value="UPDATE_USUARIO">
                     </li>
                     <li>
                         <input type="hidden" name="rowid" value="'.$this->dtUser['rowid'].'">
@@ -244,7 +278,6 @@
             $this->setFormRegEdit();
             return $this->formregedit;
         }
-
 
         private function setFormLogin(){
             $this->formlogin = '
@@ -319,7 +352,7 @@
                                         </a>
                                     </td>';
                     $this->table.='<td>
-                                        <a href="" class="btn btn-danger"> 
+                                        <a href="index.php?action=borrarusuario&id='.base64_encode($dtUsuario['rowid']).'" class="btn btn-danger"> 
                                             <span class="fa-solid fa-trash"></span>
                                         </a>
                                     </td>';

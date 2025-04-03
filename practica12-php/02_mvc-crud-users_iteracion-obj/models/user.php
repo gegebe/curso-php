@@ -113,6 +113,33 @@
 
             }
         
+        public function UpdateUsariosDB($datos){
+            if(isset($datos['pass']) AND !empty($datos['pass'])){
+                $sql = "UPDATE `app_usuarios` SET 
+                    `nombre` = '".$datos['nombre']."',
+                    `email` = '".md5($datos['email'])."',
+                    `conectado` = ".$datos['conectado'].",
+                    `estado` = ".$datos['estado']." WHERE `rowid` = ".$datos['rowid'].";";
+
+                    // `foto`='".$datos['foto']."',
+            } else {
+                $sql = "UPDATE `app_usuarios` SET 
+                    `nombre` = '".$datos['nombre']."',
+                    `pass` = '".md5($datos['pass'])."', 
+                    `email` = '".$datos['email']."',
+                    `conectado` = ".$datos['conectado'].",
+                    `estado` = ".$datos['estado']." WHERE `rowid`=".$datos['rowid'].";";
+
+                    // `foto`='".$datos['foto']."',
+            }
+            
+            //Pasa sql por la consulta
+            $res = $this->consultarDB($sql);
+            return $res;
+            
+
+        }
+
         public function AddUsuariosDB($datos){
 
             $this->Validar($datos);
@@ -134,6 +161,12 @@
                 return $res;
             }
 
+        }
+
+        public function DeleteUserDB($rowid) {
+            $sql = "DELETE FROM `app_usuarios` WHERE `rowid`=".$rowid;
+            $res = $this->consultarDB($sql);
+            return $res;
         }
 
 
