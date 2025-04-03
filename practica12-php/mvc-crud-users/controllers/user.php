@@ -125,20 +125,56 @@
 
         private function setFormReg(){
             $this->formreg = '
-                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
-                    <h3>Formulario de registro:</h3>
-                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required>
-                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required>
-                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required>
-                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required>
-                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required>
-                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:">
-                    <input id="conectado" type="hidden" name="conectado" value="0">
-                    <input id="estado" type="hidden" name="estado" value="0">
-                    <input type="hidden" name="action" value="REG_USUARIOS">
-                    <input class="btn btn-success" type="submit" value="REGISTRO">
-                    <input class="btn btn-danger" type="reset" value="RESET">
-                </form>   
+            <form id="registro" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
+                <h3>Formulario de acceso</h3>
+                <ul>
+                    <li>
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Usuario" required>
+                    </li>
+                    <li>
+                        <label for="pass">Password</label>
+                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" required>
+                    </li>
+                    <li>
+                        <label for="pass">Repetir password</label>
+                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" required>
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email" required>
+                    </li>
+                    <li>
+                        <label for="email2">Repetir email</label>
+                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir password" required>
+                    </li>
+                    <li>
+                        <label for="foto">Foto</label>
+                        <input name="foto" id="foto" type="file" class="form-control">
+                    </li>
+
+                    <li>
+                        <input type="hidden" name="conectado" value="0">
+                    </li>
+                    <li>
+                        <input type="hidden" name="estado" value="0">
+                    </li>
+                    <li>
+                        <input type="hidden" name="action" value="REG_USUARIOS">
+                    </li>
+
+                    <li>
+                        <ul class="d-flex">
+                            <li>
+                                <button class="btn btn-success" type="submit">LOGIN</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger" type="reset">RESET</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
             ';
         }
 
@@ -148,20 +184,56 @@
 
         private function setFormRegEdit(){
             $this->formregedit = '
-                <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
-                    <h3>Formulario de registro:</h3>
-                    <input id ="user" name="nombre" type="text" class="form-control" placeholder="Usuario:" minlength="3" maxlength="10" required>
-                    <input id="pass1" type="password" class="form-control" placeholder="Password:" required>
-                    <input id="pass2" name="pass" type="password" class="form-control" placeholder="Repetir password:" required>
-                    <input id="mail1" type="email"  class="form-control" placeholder="E-mail:" required>
-                    <input id="mail2" name="email" type="mail"  class="form-control" placeholder="repetir E-mail:" required>
-                    <input type="file" name="foto" class="form-control" placeholder="Subir una foto:">
-                    <input id="conectado" type="hidden" name="conectado" value="0">
-                    <input id="estado" type="hidden" name="estado" value="0">
-                    <input type="hidden" name="action" value="REG_USUARIOS">
-                    <input class="btn btn-success" type="submit" value="REGISTRO">
-                    <input class="btn btn-danger" type="reset" value="RESET">
-                </form>   
+            <form id="registro" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
+                <h3>Formulario de acceso</h3>
+                <ul>
+                    <li>
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Usuario" required>
+                    </li>
+                    <li>
+                        <label for="pass">Password</label>
+                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" required>
+                    </li>
+                    <li>
+                        <label for="pass">Repetir password</label>
+                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" required>
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email" required>
+                    </li>
+                    <li>
+                        <label for="email2">Repetir email</label>
+                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir password" required>
+                    </li>
+                    <li>
+                        <label for="foto">Foto</label>
+                        <input name="foto" id="foto" type="file" class="form-control">
+                    </li>
+
+                    <li>
+                        <input type="hidden" name="conectado" value="0">
+                    </li>
+                    <li>
+                        <input type="hidden" name="estado" value="0">
+                    </li>
+                    <li>
+                        <input type="hidden" name="action" value="REG_USUARIOS">
+                    </li>
+
+                    <li>
+                        <ul class="d-flex">
+                            <li>
+                                <button class="btn btn-success" type="submit">LOGIN</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger" type="reset">RESET</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
             ';
         }
 
@@ -173,14 +245,31 @@
         private function setFormLogin(){
             $this->formlogin = '
                 <form class="form-control" method="POST" action="index.php">
-                    <h3>Formulario de acceso:</h3>
-                    <input name="user" type="email" class="form-control" placeholder="Usuario:" required>
-                    <input name="pass" type="password" class="form-control" placeholder="Password:" required>
-                    <input type="hidden" name="action" value="LOGIN_USER">
-                    <input class="btn btn-success" type="submit" value="LOGIN">
-                    <input class="btn btn-danger" type="reset" value="RESET">
-                </form>           
-            ';
+                <h3>Formulario de acceso</h3>
+                <ul>
+                    <li>
+                        <label for="user-access">
+                        <input name="user" id="user-access" type="email" class="form-control" placeholder="Usuario" required>
+                    </li>
+                    <li>
+                        <label for="pass">
+                        <input name="pass" id="pass" type="password" class="form-control" placeholder="Password" required>
+                    </li>
+                    <li>
+                        <input name="action" type="hidden" value="LOGIN_USER">
+                    </li>
+                    <li>
+                        <ul class="d-flex">
+                            <li>
+                                <button class="btn btn-success" type="submit">LOGIN</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger" type="reset">RESET</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>';
         }
 
         public function getFormLogin(){            
