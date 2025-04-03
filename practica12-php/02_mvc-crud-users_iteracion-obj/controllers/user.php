@@ -17,22 +17,7 @@
 
     if($_GET){
 
-        if(isset($_GET['views']) AND !empty($_GET['views'])){
-
-            if($_GET['views'] == 'edituser'){
-
-                if(isset($_GET['action']) AND !empty($_GET['action'])){
-                    
-                    if($_GET['action'] == 'edituser'){
-                        $rowid = base64_decode($_GET['id']);
-                        $usuarios->consultarUserId($rowid);
-                    }
-
-                }
-
-            }
-
-        }
+        
 
         if(isset($_GET['action']) && !empty($_GET['action'])){
             if($_GET['action'] == 'CERRAR_SESSION'){
@@ -50,6 +35,7 @@
         private $formlogin;
         private $userDB;
         private $table;
+        private $dtUser;
 
         public function __construct(){
             $this->userDB = new UsuariosDB();
@@ -181,48 +167,51 @@
 
         private function setFormRegEdit(){
             $this->formregedit = '
-            <form id="registro" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
-                <h3>Formulario de acceso</h3>
+            <form id="FormReg" class="form-control" method="POST" action="index.php" enctype="multipart/form-data">
+                <h3>Formulario de actualización</h3>
                 <ul>
                     <li>
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Usuario" required>
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Usuario" value="'.$this->dtUser['nombre'].'" required>
                     </li>
                     <li>
                         <label for="pass">Password</label>
-                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" required>
+                        <input name="pass" id="pass1" type="password" class="form-control" placeholder="Password" value="" required>
                     </li>
                     <li>
                         <label for="pass">Repetir password</label>
-                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" required>
+                        <input name="pass" id="pass2" type="password" class="form-control" placeholder="Repetir password" value="" required>
                     </li>
                     <li>
                         <label for="email">Email</label>
-                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email" required>
+                        <input name="email" id="email1" type="mail" class="form-control" placeholder="Email" value="'.$this->dtUser['email'].'" required>
                     </li>
                     <li>
                         <label for="email2">Repetir email</label>
-                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir password" required>
+                        <input name="email2" id="email2" type="mail" class="form-control" placeholder="Repetir email" value="'.$this->dtUser['email'].'" required>
                     </li>
                     <li>
                         <label for="foto">Foto</label>
-                        <input name="foto" id="foto" type="file" class="form-control">
+                        <input name="foto" id="foto" type="file" class="form-control" value="'.$this->dtUser['foto'].'">
                     </li>
 
                     <li>
                         <input type="hidden" name="conectado" value="0">
                     </li>
                     <li>
-                        <input type="hidden" name="estado" value="0">
+                        <input type="hidden" name="estado" value="'.$this->dtUser['estado'].'">
                     </li>
                     <li>
-                        <input type="hidden" name="action" value="REG_USUARIOS">
+                        <input type="hidden" name="action" value="UPDATE_USUARIOS">
+                    </li>
+                    <li>
+                        <input type="hidden" name="rowid" value="'.$this->dtUser['rowid'].'">
                     </li>
 
                     <li>
                         <ul class="d-flex">
                             <li>
-                                <button class="btn btn-success" type="submit">LOGIN</button>
+                                <button class="btn btn-success" type="submit">ACTUALIZAR</button>
                             </li>
                             <li>
                                 <button class="btn btn-danger" type="reset">RESET</button>
@@ -235,6 +224,24 @@
         }
 
         public function getFormRegEdit(){
+            if(isset($_GET['views']) AND !empty($_GET['views'])){
+
+                if($_GET['views'] == 'edituser'){
+    
+                    if(isset($_GET['action']) AND !empty($_GET['action'])){
+                        
+                        if($_GET['action'] == 'edituser'){
+                            $rowid = base64_decode($_GET['id']);
+                            $this->dtUser = $this->userDB->consultarUserIdDB($rowid);
+                        }
+    
+                    }
+    
+                }
+    
+            }
+
+            $this->setFormRegEdit();
             return $this->formregedit;
         }
 
@@ -336,7 +343,4 @@
             
         }
 
-        public function consultarUserId($rowid){
-            $dtUser = $this->userDB->consultarUserIdDB($rowid);
-        }
     }
