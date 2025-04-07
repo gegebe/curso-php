@@ -1,4 +1,4 @@
-d<?php
+<?php
 
     //require_once(RUTA_AB.'config.php');//Manera de que encuentre siempre el fichero, solo para PRE
     require_once('config.php');
@@ -383,8 +383,7 @@ d<?php
                 <tfoot>
                     <tr>
                         <td class="" colspan="7">
-                            Total de usuarios:
-                        </td>
+                            Total de usuarios:'.count($dtUsuarios).'</td>
                     </tr>
                 </tfoot>
             </table>
